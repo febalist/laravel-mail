@@ -24,8 +24,8 @@ class FileMail implements ShouldQueue
 
     public function __construct($file, $name, $email, $subject = null, $markdown = null, $replyTo = null)
     {
-        $this->file;
-        $this->name;
+        $this->file = $file;
+        $this->name = $name;
         $this->email = $email;
         $this->subject = $subject;
         $this->markdown = $markdown;
@@ -52,7 +52,7 @@ class FileMail implements ShouldQueue
     protected function sendFile(File $file)
     {
         $mail = new MarkdownMail($this->subject, $this->markdown ?: $this->name);
-        $mail->attach($file->file->local());
+        $mail->attach($file->local());
 
         if ($this->replyTo) {
             $mail->replyTo($this->replyTo);

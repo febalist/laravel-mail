@@ -1,0 +1,12 @@
+{
+  "name": "febalist/laravel-mail",
+  "autoload": {
+    "psr-4": {
+      "Febalist\\Laravel\\Mail\\": "src/"
+    }
+  },
+  "require": {
+    "laravel/framework": "^5.8",
+    "febalist/laravel-file": "^5.11"
+  }
+}

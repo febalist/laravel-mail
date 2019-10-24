@@ -3,6 +3,7 @@
 namespace Febalist\Laravel\Mail;
 
 use Febalist\Laravel\Mail\Jobs\FileMail;
+use Febalist\Laravel\Mail\Mail\HtmlMail;
 use Febalist\Laravel\Mail\Mail\MarkdownMail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;
@@ -13,18 +14,29 @@ trait HasEmail
 {
     public function sendMail(Mailable $mail)
     {
-        Mail::to($this->email)->send($mail);
+        Mail::to($this->email)->queue($mail);
     }
 
-    public function sendMarkdownMail($subject, $markdown, $replyTo = null)
+    public function sendMarkdownMail($subject, $markdown, callable $callback = null)
     {
         $mail = new MarkdownMail($subject, $markdown);
 
-        if ($replyTo) {
-            $mail->replyTo($replyTo);
+        if ($callback) {
+            $callback($mail);
         }
 
-        return Mail::to($this->email)->queue($mail);
+        return $this->sendMail($mail);
+    }
+
+    public function sendHtmlMail($subject, $html, callable $callback = null)
+    {
+        $mail = new HtmlMail($subject, $html);
+
+        if ($callback) {
+            $callback($mail);
+        }
+
+        return $this->sendMail($mail);
     }
 
     public function sendFileMail($file, $name, $subject, $markdown, $replyTo = null)

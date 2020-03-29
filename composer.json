@@ -6,7 +6,6 @@
     }
   },
   "require": {
-    "laravel/framework": "^5.8",
-    "febalist/laravel-file": "^5.11|dev-master"
+    "febalist/laravel-file": "^5.11"
   }
 }
